@@ -86,8 +86,7 @@ dkms.conf
 *.out
 *.app
 .DS_Store
-cmake*
+cmake_*
 CMakeFiles*
 Makefile
 server
-example.txt

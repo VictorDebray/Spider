@@ -1,10 +1,11 @@
 .DS_Store*
 CMakeFiles*
-cmake*
+CMakeCache.txt
+cmake_*
 Makefile
 *cbp
 install_manifest.txt
-CTestTestFile.cmake
+CTestTestFile*
 bin
 server_test
 common_test
