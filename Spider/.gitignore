@@ -1,0 +1,11 @@
+.DS_Store*
+CMakeFiles*
+cmake*
+Makefile
+*cbp
+install_manifest.txt
+CTestTestFile.cmake
+bin
+server_test
+common_test
+.idea*

@@ -1,0 +1,4 @@
+cmake*
+gtest*
+server_tests/CMakeFiles
+server_tests/Makefile
