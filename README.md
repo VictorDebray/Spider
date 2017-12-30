@@ -12,17 +12,31 @@ To build the server, on UNIX systems :
 ```
 cd Spider
 cmake .
-make
-cd Server
-./server
+make install
+cd bin
+./server 	// for the server program
+./common_test 	// for gtests of serialization
+./server_test	// for integration tests of server (not yet implemented)
 ```
 
 To build the client, on Windows:
 Be sure to have Boost 1.65.1 installed and static libraries compiled for cmake's find_package() to work.
 Add those environment variables :
-`BOOST_INCLUDEDIR PATH\boost_1_65_1`
-`BOOST_LIBRARYDIR PATH\boost_1_65_1\stage\lib`
-`BOOST_ROOT PATH	 PATH\boost_1_65_1\boost`
-```
+For Boost : 
+- `BOOST_INCLUDEDIR PATH\boost_1_65_1` 
+- `BOOST_LIBRARYDIR PATH\boost_1_65_1\stage\lib` 
+- `BOOST_ROOT PATH   PATH\boost_1_65_1\boost` 
+` 
+ 
+For Mongo C++ Drivers : 
+- `LIBMONGO_CXX_DIR PATH\mongo-cxx-drive\lib\cmake` 
+- `LIBBSON_CXX_DIR PATH\mongo-cxx-drive\lib\cmake`
 
+```
+cd Spider
+cmake .
+make install
+cd bin
+./server
+./client
 ```
