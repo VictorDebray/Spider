@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.9.2)
 project(SpiderServer)
-add_subdirectory(Tests)
+if (APPLE OR UNIX)
+	add_subdirectory(Tests)
+endif(APPLE OR UNIX)
 add_subdirectory(Server)

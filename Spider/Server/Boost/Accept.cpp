@@ -26,7 +26,7 @@ void	Accept::bind(const std::string &addr, uint16_t port)
 {
   boost::asio::ip::address baddr = boost::asio::ip::address::from_string(addr);
   int one = 1;
-  setsockopt(acceptor_.native_handle(), SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &one, sizeof(one));
+  setsockopt(acceptor_.native_handle(), SOL_SOCKET, SO_REUSEADDR, (char *)&one, sizeof(one));
   acceptor_.open(familyFromAddr(baddr));
   acceptor_.bind({baddr, port});
 }

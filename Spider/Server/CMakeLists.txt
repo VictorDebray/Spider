@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.9.2)
 
 set(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "-W -Wall -Wextra")
 
 set(DATABASE_DIR Database)
 set(BOOST_DIR Boost)
@@ -57,32 +56,31 @@ include_directories(${Boost_INCLUDE_DIRS}
 
 if (APPLE OR WIN32)
     set(Boost_USE_STATIC_LIBS TRUE)
-endif()
+endif(APPLE OR WIN32)
 set(Boost_DEBUG off)
 find_package(Boost 1.65.1 COMPONENTS system thread serialization REQUIRED)
+include_directories( ${Boost_INCLUDE_DIR} )
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
-    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(warnings "-Wall -Wextra -Werror")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(warnings "/W4 /wd4512 /WX /EHsc")
-        # Disabled Warnings:
-        #   4512 "assignment operator could not be generated"
-        #        This warning provides no useful information and will occur in
-        #        well formed programs.
-        #        <http://msdn.microsoft.com/en-us/library/hsyx7kbz.aspx>
-endif()
 
 target_link_libraries(server ${Boost_LIBRARIES} -lpthread)
-find_package(libmongocxx REQUIRED)
-find_package(libbsoncxx REQUIRED)
-include_directories(${LIBMONGOCXX_INCLUDE_DIR})
-include_directories(${LIBBSONCXX_INCLUDE_DIR})
-include_directories("/usr/local/include/mongocxx/v_noabi")
-include_directories("/usr/local/include/bsoncxx/v_noabi")
-include_directories("/usr/local/include/libmongoc-1.0")
-include_directories("/usr/local/include/libbson-1.0")
-include_directories("/usr/local/lib")
+
+if(APPLE)
+	find_package(libmongocxx REQUIRED)
+	find_package(libbsoncxx REQUIRED)
+	include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+	include_directories(${LIBBSONCXX_INCLUDE_DIR})
+	include_directories("/usr/local/include/mongocxx/v_noabi")
+	include_directories("/usr/local/include/bsoncxx/v_noabi")
+	include_directories("/usr/local/include/libmongoc-1.0")
+	include_directories("/usr/local/include/libbson-1.0")
+	include_directories("/usr/local/lib")
+elseif(WIN32)
+	find_package(libmongocxx REQUIRED)
+	find_package(libbsoncxx REQUIRED)
+
+	include_directories(${LIBMONGOCXX_INCLUDE_DIRS} ${LIBBSONCXX_INCLUDE_DIRS})
+	link_directories(${LIBMONGOCXX_LIBRARY_DIRS} ${LIBBSONCXX_LIBRARY_DIRS})
+endif()
 
 target_link_libraries(server ${LIBMONGOCXX_LIBRARIES})
 target_link_libraries(server ${LIBBSONCXX_LIBRARIES})
