@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9.2)
-
+project(Spider)
 set(CMAKE_CXX_STANDARD 17)
 
 set(DATABASE_DIR Database)
@@ -58,13 +58,13 @@ if (APPLE OR WIN32)
     set(Boost_USE_STATIC_LIBS TRUE)
 endif(APPLE OR WIN32)
 set(Boost_DEBUG off)
-find_package(Boost 1.65.1 COMPONENTS system thread serialization REQUIRED)
+find_package(Boost 1.65.1 COMPONENTS system thread serialization regex REQUIRED)
 include_directories( ${Boost_INCLUDE_DIR} )
 
 
-target_link_libraries(server ${Boost_LIBRARIES} -lpthread)
 
-if(APPLE)
+if(APPLE OR UNIX)
+	target_link_libraries(server ${Boost_LIBRARIES} -lpthread)
 	find_package(libmongocxx REQUIRED)
 	find_package(libbsoncxx REQUIRED)
 	include_directories(${LIBMONGOCXX_INCLUDE_DIR})
@@ -75,6 +75,7 @@ if(APPLE)
 	include_directories("/usr/local/include/libbson-1.0")
 	include_directories("/usr/local/lib")
 elseif(WIN32)
+	target_link_libraries(server ${Boost_LIBRARIES})
 	find_package(libmongocxx REQUIRED)
 	find_package(libbsoncxx REQUIRED)
 
