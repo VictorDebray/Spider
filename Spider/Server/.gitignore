@@ -90,3 +90,4 @@ cmake_*
 CMakeFiles*
 Makefile
 server
+.vs*

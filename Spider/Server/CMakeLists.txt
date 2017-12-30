@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9.3)
+cmake_minimum_required(VERSION 3.9.2)
 
 set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_FLAGS "-W -Wall -Wextra")
@@ -55,7 +55,23 @@ add_executable(server ${SOURCE_FILES} ${BOOST_SRC} ${COMMON_SRC}
 include_directories(${Boost_INCLUDE_DIRS}
         ${BOOST_DIR} ${COMMON_DIR} ${DATABASE_DIR} .)
 
-find_package(Boost 1.65 COMPONENTS system thread serialization REQUIRED)
+if (APPLE OR WIN32)
+    set(Boost_USE_STATIC_LIBS TRUE)
+endif()
+set(Boost_DEBUG off)
+find_package(Boost 1.65.1 COMPONENTS system thread serialization REQUIRED)
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(warnings "-Wall -Wextra -Werror")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(warnings "/W4 /wd4512 /WX /EHsc")
+        # Disabled Warnings:
+        #   4512 "assignment operator could not be generated"
+        #        This warning provides no useful information and will occur in
+        #        well formed programs.
+        #        <http://msdn.microsoft.com/en-us/library/hsyx7kbz.aspx>
+endif()
 
 target_link_libraries(server ${Boost_LIBRARIES} -lpthread)
 find_package(libmongocxx REQUIRED)

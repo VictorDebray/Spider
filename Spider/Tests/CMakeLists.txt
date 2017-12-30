@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.9.3)
+cmake_minimum_required(VERSION 3.9.2)
+set(CMAKE_CXX_STANDARD 17)
+
 find_package(Threads REQUIRED)
 
 # Enable ExternalProject CMake module

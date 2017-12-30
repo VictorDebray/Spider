@@ -2,3 +2,4 @@ cmake_*
 gtest*
 server_tests/CMakeFiles
 server_tests/Makefile
+.idea*
